@@ -1,0 +1,33 @@
+=== Log Session Started at 19.05.2025 10:39:08 by project1 ===
+10:39:08:177 Counter1=1
+10:39:08:177 AStrWatch=XXXX
+10:39:08:177 An empty StringList
+10:39:08:177 CounteR1=2
+10:39:08:177 AIntWatch=123
+10:39:08:177 A Text Message
+10:39:08:177 CounTER1=3
+10:39:08:177 Another Text Message
+10:39:08:177 Counter1=2
+10:39:08:177 AIntWatch=321
+10:39:08:177 A Error Message
+10:39:08:177 Counter1=0
+10:39:08:177 ASTRWatch=YYYY
+10:39:08:177 An Object/Component [$000000000153C430]
+object The_Obj_Name: TMyObject
+  Id = 2
+end
+10:39:08:177 DoIt
+10:39:08:177   AText inside DoIt
+10:39:08:177   A Warning
+10:39:08:177   A String = sadjfgadsfbmsandfb
+10:39:08:177   AInteger = 4957
+10:39:08:177   A Boolean = True
+10:39:08:187   A CallStack example
+                   $0000000100001C3D  $main,  line 66 of testmultilog.pas
+                   $0000000100001D36
+10:39:08:187 DoIt
+10:39:08:187 A StringList
+               aaaaaa
+               bbbbbb
+               cccccc
+10:39:08:190 This Text Should be logged
