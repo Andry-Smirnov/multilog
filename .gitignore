@@ -71,8 +71,8 @@ modules/
 # Lazarus
 backup/
 lib/
-
 lazarus
+*.dbg
 
 # MacOS thumbnails
 .DS_Store

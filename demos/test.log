@@ -31,3 +31,36 @@ end
                bbbbbb
                cccccc
 10:39:08:190 This Text Should be logged
+=== Log Session Started at 19.05.2025 15:10:15 by project1 ===
+15:10:15:016 Counter1=1
+15:10:15:017 AStrWatch=XXXX
+15:10:15:017 An empty StringList
+15:10:15:018 CounteR1=2
+15:10:15:018 AIntWatch=123
+15:10:15:019 A Text Message
+15:10:15:019 CounTER1=3
+15:10:15:019 Another Text Message
+15:10:15:020 Counter1=2
+15:10:15:020 AIntWatch=321
+15:10:15:021 A Error Message
+15:10:15:021 Counter1=0
+15:10:15:021 ASTRWatch=YYYY
+15:10:15:022 An Object/Component [$00000000015C7060]
+object The_Obj_Name: TMyObject
+  Id = 2
+end
+15:10:15:022 DoIt
+15:10:15:023   AText inside DoIt
+15:10:15:023   A Warning
+15:10:15:024   A String = sadjfgadsfbmsandfb
+15:10:15:024   AInteger = 4957
+15:10:15:024   A Boolean = True
+15:10:15:029   A CallStack example
+                   $0000000100001C3D  $main,  line 66 of testmultilog.pas
+                   $0000000100001D36
+15:10:15:029 DoIt
+15:10:15:030 A StringList
+               aaaaaa
+               bbbbbb
+               cccccc
+15:10:15:030 This Text Should be logged

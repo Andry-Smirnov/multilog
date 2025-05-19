@@ -1,34 +1,48 @@
-unit Unit1; 
+unit Unit1;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  Buttons, ExtCtrls, StdCtrls, Spin,
-  MultiLog, MultiLogLCLHelpers, IPCChannel, LogTreeView, MemoChannel;
+  Classes,
+  SysUtils,
+  LResources,
+  Forms,
+  Controls,
+  Graphics,
+  Dialogs,
+  ComCtrls,
+  Buttons,
+  ExtCtrls,
+  StdCtrls,
+  Spin,
+  MultiLog,
+  MultiLogLCLHelpers,
+  IPCChannel,
+  LogTreeView,
+  MemoChannel;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    butTestLog: TButton;
-    butClear: TButton;
-    butSubLog: TButton;
-    butString: TButton;
-    butInteger: TButton;
-    butFloat: TButton;
-    butBoolean: TButton;
+    butTestLog:  TButton;
+    butClear:    TButton;
+    butSubLog:   TButton;
+    butString:   TButton;
+    butInteger:  TButton;
+    butFloat:    TButton;
+    butBoolean:  TButton;
     butEnterMethod: TButton;
     butExitMethod: TButton;
     butCalledBy: TButton;
     butCallStack: TButton;
     butHeapInfo: TButton;
     butException: TButton;
-    butStrings: TButton;
-    butInfo: TButton;
+    butStrings:  TButton;
+    butInfo:     TButton;
     ButSendMemory: TButton;
     ButGenericCheckPoint: TButton;
     ButAddNamedCheckPoint: TButton;
@@ -36,9 +50,9 @@ type
     ButSendBitmap: TButton;
     butWatchString: TButton;
     butWatchInteger: TButton;
-    butWarning: TButton;
-    butError: TButton;
-    LogMemo: TMemo;
+    butWarning:  TButton;
+    butError:    TButton;
+    LogMemo:     TMemo;
     MemoTabSheet: TTabSheet;
     ViewersPageControl: TPageControl;
     TreeTabSheet: TTabSheet;
@@ -46,30 +60,30 @@ type
     ShowTimeCheckBox: TCheckBox;
     EditNamedCheckPoint: TEdit;
     EditWatchString: TEdit;
-    EditInfo: TEdit;
+    EditInfo:    TEdit;
     EditWarning: TEdit;
-    EditError: TEdit;
-    Image1: TImage;
+    EditError:   TEdit;
+    Image1:      TImage;
     memoStrings: TMemo;
-    butObject: TButton;
+    butObject:   TButton;
     comboBoolean: TComboBox;
     comboEnterMethod: TComboBox;
     editCalledBy: TEdit;
     editExitMethod: TEdit;
-    editString: TEdit;
+    editString:  TEdit;
     OpenDialog1: TOpenDialog;
-    PageBitmap: TTabSheet;
+    PageBitmap:  TTabSheet;
     pageGeneral: TTabSheet;
     spinWatchInteger: TSpinEdit;
-    spinFloat: TFloatSpinEdit;
+    spinFloat:   TFloatSpinEdit;
     LogTreeView1: TLogTreeView;
-    Notebook1: TPageControl;
+    Notebook1:   TPageControl;
     pageWatches: TTabSheet;
     pageSpecialized: TTabSheet;
     pageMethods: TTabSheet;
     pageVariables: TTabSheet;
     spinInteger: TSpinEdit;
-    Splitter1: TSplitter;
+    Splitter1:   TSplitter;
     procedure ButAddNamedCheckPointClick(Sender: TObject);
     procedure butBooleanClick(Sender: TObject);
     procedure butCalledByClick(Sender: TObject);
@@ -104,10 +118,10 @@ type
     FMemoChannel: TMemoChannel;
   public
     { public declarations }
-  end; 
+  end;
 
 var
-  Form1: TForm1; 
+  Form1: TForm1;
 
 implementation
 
@@ -132,13 +146,13 @@ end;
 
 procedure TForm1.TestLogClick(Sender: TObject);
 var
-  AList:TStringList;
+  AList: TStringList;
 begin
   with Logger do
   begin
-    ActiveClasses:=lcAll;
-    EnterMethod(Sender,'TestLogClick');
-    AList:=TStringList.Create;
+    ActiveClasses := lcAll;
+    EnterMethod(Sender, 'TestLogClick');
+    AList := TStringList.Create;
     with AList do
     begin
       Add('aaaaaaa');
@@ -152,14 +166,14 @@ begin
     SendError('A Error Message');
     SubLogClick(butSubLog);
     DefaultClasses := [lcWarning];
-    ActiveClasses:=[lcDebug,lcInfo];
+    ActiveClasses := [lcDebug, lcInfo];
     Send('This Text Should NOT be logged');
-    Send([lcDebug],'This Text Should be logged');
-    ActiveClasses:=[];
-    Send([lcDebug],'But This Text Should NOT');
+    Send([lcDebug], 'This Text Should be logged');
+    ActiveClasses := [];
+    Send([lcDebug], 'But This Text Should NOT');
     //Exitmethod is called even if not active if there's a unpaired EnterMethod
-    ExitMethod(Sender,'TestLogClick');
-    ActiveClasses:=lcAll;
+    ExitMethod(Sender, 'TestLogClick');
+    ActiveClasses := lcAll;
   end;
 end;
 
@@ -172,10 +186,10 @@ procedure TForm1.butEnterMethodClick(Sender: TObject);
 begin
   with comboEnterMethod do
   begin
-    if (Text <> '') and (Items.IndexOf(Text) =-1) then
+    if (Text <> '') and (Items.IndexOf(Text) = -1) then
     begin
       Items.Add(Text);
-      editExitMethod.Text:=Text;
+      editExitMethod.Text := Text;
       Logger.EnterMethod(Text);
     end;
   end;
@@ -193,8 +207,8 @@ begin
     StrToInt('XXXXX');
   except
     On E: Exception do
-      Logger.SendException('An Exception example',E);
-  end
+      Logger.SendException('An Exception example', E);
+  end;
 end;
 
 procedure TForm1.butExitMethodClick(Sender: TObject);
@@ -206,21 +220,21 @@ begin
     if Text <> '' then
     begin
       Logger.ExitMethod(Text);
-      i:=comboEnterMethod.Items.IndexOf(Text);
+      i := comboEnterMethod.Items.IndexOf(Text);
       if i <> -1 then
         comboEnterMethod.Items.Delete(i);
       Dec(i);
       if i <> -1 then
-        Text:=comboEnterMethod.Items[i]
+        Text := comboEnterMethod.Items[i]
       else
-        Text:='';
+        Text := '';
     end;
   end;
 end;
 
 procedure TForm1.butBooleanClick(Sender: TObject);
 begin
-  Logger.Send('A Boolean Variable',Boolean(comboBoolean.ItemIndex));
+  Logger.Send('A Boolean Variable', Boolean(comboBoolean.ItemIndex));
 end;
 
 procedure TForm1.ButAddNamedCheckPointClick(Sender: TObject);
@@ -233,7 +247,7 @@ procedure TForm1.butCalledByClick(Sender: TObject);
 begin
   if editCalledBy.Text <> '' then
     with Logger do
-      SendIf('Send only if Called By '+editCalledBy.Text,CalledBy(editCalledBy.Text));
+      SendIf('Send only if Called By ' + editCalledBy.Text, CalledBy(editCalledBy.Text));
 end;
 
 procedure TForm1.butCallStackClick(Sender: TObject);
@@ -243,7 +257,7 @@ end;
 
 procedure TForm1.butFloatClick(Sender: TObject);
 begin
-  Logger.Send('A Float Variable',spinFloat.Value);
+  Logger.Send('A Float Variable', spinFloat.Value);
 end;
 
 procedure TForm1.ButGenericCheckPointClick(Sender: TObject);
@@ -264,7 +278,7 @@ end;
 
 procedure TForm1.butIntegerClick(Sender: TObject);
 begin
-  Logger.Send('A Integer Variable',spinInteger.Value);
+  Logger.Send('A Integer Variable', spinInteger.Value);
 end;
 
 procedure TForm1.ButOpenImageClick(Sender: TObject);
@@ -275,26 +289,26 @@ end;
 
 procedure TForm1.ButSendBitmapClick(Sender: TObject);
 begin
-  Logger.SendBitmap('ABitmap',Image1.Picture.Bitmap);
+  Logger.SendBitmap('ABitmap', Image1.Picture.Bitmap);
 end;
 
 procedure TForm1.ButSendMemoryClick(Sender: TObject);
 var
- AStr: String;
+  AStr: String;
 begin
-  AStr:='dfhejhrgtjehrgthjergthjergthjergterbdfngm';
-  Logger.SendMemory('The memory of a string',PChar(AStr),Length(AStr));
+  AStr := 'dfhejhrgtjehrgthjergthjergthjergterbdfngm';
+  Logger.SendMemory('The memory of a string', PChar(AStr), Length(AStr));
 end;
 
 procedure TForm1.butStringClick(Sender: TObject);
 begin
-  Logger.Send('A String Variable',editString.Text);
+  Logger.Send('A String Variable', editString.Text);
 end;
 
 procedure TForm1.butStringsClick(Sender: TObject);
 begin
   if memoStrings.Lines.Count > 0 then
-    Logger.Send('A TStrings',memoStrings.Lines);
+    Logger.Send('A TStrings', memoStrings.Lines);
 end;
 
 procedure TForm1.butWarningClick(Sender: TObject);
@@ -305,17 +319,17 @@ end;
 
 procedure TForm1.butWatchIntegerClick(Sender: TObject);
 begin
-  Logger.Watch('X',spinWatchInteger.Value);
+  Logger.Watch('X', spinWatchInteger.Value);
 end;
 
 procedure TForm1.butWatchStringClick(Sender: TObject);
 begin
-  Logger.Watch('StrVar',EditWatchString.Text);
+  Logger.Watch('StrVar', EditWatchString.Text);
 end;
 
 procedure TForm1.ObjectClick(Sender: TObject);
 begin
-  Logger.Send('An TObject Example',Sender)
+  Logger.Send('An TObject Example', Sender);
 end;
 
 procedure TForm1.ShowTimeCheckBoxChange(Sender: TObject);
@@ -330,18 +344,18 @@ var
 begin
   with Logger do
   begin
-    OldClasses:=ActiveClasses;
-    ActiveClasses:=lcAll;
-    EnterMethod(Sender,'SubLogClick');
-    SendIf('Only show if called by TestLogClick',CalledBy('TestLogClick'));
+    OldClasses := ActiveClasses;
+    ActiveClasses := lcAll;
+    EnterMethod(Sender, 'SubLogClick');
+    SendIf('Only show if called by TestLogClick', CalledBy('TestLogClick'));
     Send('AText inside DoIt');
     SendWarning('AWarning');
     SendCallStack('CallStack example');
-    Send('A String','sadjfgadsfbmsandfb');
-    Send('AInteger',4957);
-    Send('A Boolean',True);
-    ExitMethod(Sender,'SubLogClick');
-    ActiveClasses:=OldClasses;
+    Send('A String', 'sadjfgadsfbmsandfb');
+    Send('AInteger', 4957);
+    Send('A Boolean', True);
+    ExitMethod(Sender, 'SubLogClick');
+    ActiveClasses := OldClasses;
   end;
 end;
 
@@ -359,4 +373,3 @@ end;
 
 
 end.
-

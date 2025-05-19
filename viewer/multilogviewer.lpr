@@ -9,7 +9,9 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms,
-  { add your units here } fMain, MultiLog
+  { add your units here }
+  fMain,
+  MultiLog
   {$ifdef DEBUG_MULTILOGVIEWER}, filechannel{$endif}
   {$ifdef LCLWin32}, UniqueInstanceRaw{$endif};
 

@@ -31,7 +31,7 @@ uses
 {$R *.res}
 
 begin
-  Application.Title := 'IPC Log Viewer';
+  Application.Title:='IPC Log Viewer';
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
