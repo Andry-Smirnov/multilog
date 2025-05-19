@@ -19,8 +19,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="3" Y="21"/>
+        <TopLine Value="131"/>
+        <CursorPos X="38" Y="167"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit1>
@@ -43,14 +45,13 @@
       <Unit4>
         <Filename Value="..\..\ipcchannel.pas"/>
         <UnitName Value="IPCChannel"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="10"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="unit1.pas"/>
       </Position1>
@@ -78,6 +79,10 @@
         <Filename Value="unit1.pas"/>
         <Caret Line="21" Column="3"/>
       </Position7>
+      <Position8>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="113" Column="22" TopLine="74"/>
+      </Position8>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
