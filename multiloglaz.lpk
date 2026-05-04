@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="multiloglaz"/>
     <Type Value="RunAndDesignTime"/>
     <AddToProjectUsesSection Value="True"/>
-    <Author Value="Luiz Américo Pereira Câmara"/>
+    <Author Value="Luiz AmÐ¹rico Pereira CÐ²mara"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
@@ -15,6 +15,12 @@
           <UseAnsiStrings Value="False"/>
         </SyntaxOptions>
       </Parsing>
+      <CodeGeneration>
+        <SmartLinkUnit Value="True"/>
+        <Optimizations>
+          <OptimizationLevel Value="4"/>
+        </Optimizations>
+      </CodeGeneration>
     </CompilerOptions>
     <Description Value="Multilog provides an easy way to use log messages in a fpc/Lazarus application
 "/>
@@ -56,6 +62,7 @@
         <UnitName Value="MemoChannel"/>
       </Item8>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="LCL"/>
