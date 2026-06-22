@@ -46,40 +46,39 @@ const
   //mt (Message Type) and lt (Log Type) prefixes are used elsewhere
   //but mt is worse because there's already mtWarning and mtInformation
   //the existing lt* do not makes confusion
-  ltInfo      = 0;
-  ltError     = 1;
-  ltWarning   = 2;
-  ltValue     = 3;
+  ltInfo    = 0;
+  ltError   = 1;
+  ltWarning = 2;
+  ltValue   = 3;
   ltEnterMethod = 4;
-  ltExitMethod = 5;
+  ltExitMethod  = 5;
   ltConditional = 6;
   ltCheckpoint = 7;
-  ltStrings   = 8;
+  ltStrings = 8;
   ltCallStack = 9;
-  ltObject    = 10;
+  ltObject = 10;
   ltException = 11;
-  ltBitmap    = 12;
-  ltHeapInfo  = 13;
-  ltMemory    = 14;
+  ltBitmap = 12;
+  ltHeapInfo = 13;
+  ltMemory = 14;
   ltCustomData = 15;
-  ltWatch     = 20;
-  ltCounter   = 21;
+  ltWatch = 20;
+  ltCounter = 21;
 
 
   ltClear = 100;
 
   //LogClasses, convention with lc prefix
   //it's possible to define the constants to suit any need
-  lcAll     = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-  lcDebug   = 0;
-  lcError   = 1;
-  lcInfo    = 2;
+  lcAll = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+  lcDebug = 0;
+  lcError = 1;
+  lcInfo = 2;
   lcWarning = 3;
-  lcEvents  = 4;
+  lcEvents = 4;
   //reserved
-  lcUser    = 8;
-
+  lcUser = 8;
+  
 type
   TLogger = class;
 
@@ -91,13 +90,11 @@ type
     MsgType: Integer;
     MsgTime: TDateTime;
     MsgText: String;
-    Data:    TStream;
+    Data: TStream;
   end;
 
-  TCustomDataNotify = function(Sender: TLogger; Data: Pointer;
-    var DoSend: Boolean): String of object;
-  TCustomDataNotifyStatic = function(Sender: TLogger; Data: Pointer;
-    var DoSend: Boolean): String;
+  TCustomDataNotify = function(Sender: TLogger; Data: Pointer; var DoSend: Boolean): String of Object;
+  TCustomDataNotifyStatic = function(Sender: TLogger; Data: Pointer; var DoSend: Boolean): String;
 
   { TLogChannel }
 
@@ -132,13 +129,13 @@ type
   TLogger = class
   private
     FMaxStackCount: Integer;
-    FChannels:      TChannelList;
-    FLogStack:      TStrings;
-    FCheckList:     TStringList;
-    FCounterList:   TStringList;
-    FOnCustomData:  TCustomDataNotify;
+    FChannels: TChannelList;
+    FLogStack: TStrings;
+    FCheckList: TStringList;
+    FCounterList: TStringList;
+    FOnCustomData: TCustomDataNotify;
     FLastActiveClasses: TDebugClasses;
-  class var FDefaultChannels: TChannelList;
+    class var FDefaultChannels: TChannelList;
     procedure GetCallStack(AStream: TStream);
     procedure SetEnabled(AValue: Boolean);
     class function GetDefaultChannels: TChannelList; static;
@@ -146,12 +143,12 @@ type
     procedure SetMaxStackCount(const AValue: Integer);
   protected
     procedure SendStream(AMsgType: Integer; const AText: String; AStream: TStream);
-    procedure SendBuffer(AMsgType: Integer;
-      const AText: String; var Buffer; Count: Longword);
+    procedure SendBuffer(AMsgType: Integer; const AText: String; var Buffer; Count: Longword);
   public
-    ActiveClasses:  TDebugClasses;
-    //Made a public field to allow use of include/exclude functions
+    // Made a public field to allow use of include/exclude functions
+    ActiveClasses: TDebugClasses;
     DefaultClasses: TDebugClasses;
+    
     constructor Create;
     destructor Destroy; override;
     function CalledBy(const AMethodName: String): Boolean;
@@ -162,141 +159,92 @@ type
     //Send functions
     procedure Send(const AText: String); overload; {$ifdef fpc}inline;{$endif}
     procedure Send(Classes: TDebugClasses; const AText: String); overload;
-    procedure Send(const AText: String; Args: array of const); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      Args: array of const); overload;
+    procedure Send(const AText: String; Args: array of const); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; Args: array of const); overload;
     procedure Send(const AText, AValue: String); overload; {$ifdef fpc}inline;{$endif}
     procedure Send(Classes: TDebugClasses; const AText, AValue: String); overload;
-    procedure Send(const AText: String; AValue: Integer); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      AValue: Integer); overload;
+    procedure Send(const AText: String; AValue: Integer); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; AValue: Integer); overload;
     {$ifdef fpc}
     procedure Send(const AText: String; AValue: Cardinal); overload; {$ifdef fpc}inline;{$endif}
     procedure Send(Classes: TDebugClasses; const AText: String; AValue: Cardinal);overload;
     {$endif}
-    procedure Send(const AText: String; AValue: Double); overload;
-    {$ifdef fpc}inline;{$endif}
+    procedure Send(const AText: String; AValue: Double); overload; {$ifdef fpc}inline;{$endif}
     procedure Send(Classes: TDebugClasses; const AText: String; AValue: Double); overload;
-    procedure Send(const AText: String; AValue: Int64); overload;
-    {$ifdef fpc}inline;{$endif}
+    procedure Send(const AText: String; AValue: Int64); overload; {$ifdef fpc}inline;{$endif}
     procedure Send(Classes: TDebugClasses; const AText: String; AValue: Int64); overload;
-    procedure Send(const AText: String; AValue: QWord); overload;
-    {$ifdef fpc}inline;{$endif}
+    procedure Send(const AText: String; AValue: QWord); overload; {$ifdef fpc}inline;{$endif}
     procedure Send(Classes: TDebugClasses; const AText: String; AValue: QWord); overload;
-    procedure Send(const AText: String; AValue: Boolean); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      AValue: Boolean); overload;
-    procedure Send(const AText: String; const ARect: TRect); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      const ARect: TRect); overload;
-    procedure Send(const AText: String; const APoint: TPoint); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      const APoint: TPoint); overload;
-    procedure Send(const AText: String; AStrList: TStrings); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      AStrList: TStrings); overload;
-    procedure Send(const AText: String; AObject: TObject); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Send(Classes: TDebugClasses; const AText: String;
-      AObject: TObject); overload;
-    procedure SendPointer(const AText: String; APointer: Pointer);
-      overload; {$ifdef fpc}inline;{$endif}
-    procedure SendPointer(Classes: TDebugClasses; const AText: String;
-      APointer: Pointer); overload;
+    procedure Send(const AText: String; AValue: Boolean); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; AValue: Boolean); overload;
+    procedure Send(const AText: String; const ARect: TRect); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; const ARect: TRect); overload;
+    procedure Send(const AText: String; const APoint: TPoint); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; const APoint: TPoint); overload;
+    procedure Send(const AText: String; AStrList: TStrings); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; AStrList: TStrings); overload;
+    procedure Send(const AText: String; AObject: TObject); overload; {$ifdef fpc}inline;{$endif}
+    procedure Send(Classes: TDebugClasses; const AText: String; AObject: TObject); overload;
+    procedure SendPointer(const AText: String; APointer: Pointer); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendPointer(Classes: TDebugClasses; const AText: String; APointer: Pointer); overload;
     procedure SendCallStack(const AText: String); overload; {$ifdef fpc}inline;{$endif}
     procedure SendCallStack(Classes: TDebugClasses; const AText: String); overload;
-    procedure SendException(const AText: String; AException: Exception); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure SendException(Classes: TDebugClasses; const AText: String;
-      AException: Exception); overload;
+    procedure SendException(const AText: String; AException: Exception); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendException(Classes: TDebugClasses; const AText: String; AException: Exception); overload;
     procedure SendHeapInfo(const AText: String); overload; {$ifdef fpc}inline;{$endif}
     procedure SendHeapInfo(Classes: TDebugClasses; const AText: String); overload;
-    procedure SendMemory(const AText: String; Address: Pointer;
-      Size: Longword; Offset: Integer = 0); overload; {$ifdef fpc}inline;{$endif}
-    procedure SendMemory(Classes: TDebugClasses; const AText: String;
-      Address: Pointer; Size: Longword; Offset: Integer = 0); overload;
-    procedure SendIf(const AText: String; Expression: Boolean); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure SendIf(Classes: TDebugClasses; const AText: String;
-      Expression: Boolean); overload;
-    procedure SendIf(const AText: String; Expression, IsTrue: Boolean);
-      overload; {$ifdef fpc}inline;{$endif}
-    procedure SendIf(Classes: TDebugClasses; const AText: String;
-      Expression, IsTrue: Boolean); overload;
+    procedure SendMemory(const AText: String; Address: Pointer; Size: Longword; Offset: Integer = 0); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendMemory(Classes: TDebugClasses; const AText: String; Address: Pointer; Size: Longword; Offset: Integer = 0); overload;
+    procedure SendIf(const AText: String; Expression: Boolean); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendIf(Classes: TDebugClasses; const AText: String; Expression: Boolean); overload;
+    procedure SendIf(const AText: String; Expression, IsTrue: Boolean); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendIf(Classes: TDebugClasses; const AText: String; Expression, IsTrue: Boolean); overload;
     procedure SendWarning(const AText: String); overload; {$ifdef fpc}inline;{$endif}
     procedure SendWarning(Classes: TDebugClasses; const AText: String); overload;
     procedure SendError(const AText: String); overload; {$ifdef fpc}inline;{$endif}
     procedure SendError(Classes: TDebugClasses; const AText: String); overload;
-    procedure SendCustomData(const AText: String; Data: Pointer); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure SendCustomData(const AText: String; Data: Pointer;
-      CustomDataFunction: TCustomDataNotify); overload; {$ifdef fpc}inline;{$endif}
-    procedure SendCustomData(Classes: TDebugClasses; const AText: String;
-      Data: Pointer; CustomDataFunction: TCustomDataNotify); overload;
-    procedure SendCustomData(Classes: TDebugClasses; const AText: String;
-      Data: Pointer); overload;
-    procedure SendCustomData(Classes: TDebugClasses; const AText: String;
-      Data: Pointer; CustomDataFunction: TCustomDataNotifyStatic); overload;
+    procedure SendCustomData(const AText: String; Data: Pointer); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendCustomData(const AText: String; Data: Pointer; CustomDataFunction: TCustomDataNotify); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendCustomData(Classes: TDebugClasses; const AText: String; Data: Pointer; CustomDataFunction: TCustomDataNotify); overload;
+    procedure SendCustomData(Classes: TDebugClasses; const AText: String; Data: Pointer); overload;
+    procedure SendCustomData(Classes: TDebugClasses; const AText: String; Data: Pointer; CustomDataFunction: TCustomDataNotifyStatic); overload;
     procedure SendCustomData(const AText: String; Data: Pointer;
       CustomDataFunction: TCustomDataNotifyStatic); overload; {$ifdef fpc}inline;{$endif}
     procedure AddCheckPoint; overload; {$ifdef fpc}inline;{$endif}
     procedure AddCheckPoint(Classes: TDebugClasses); overload; {$ifdef fpc}inline;{$endif}
-    procedure AddCheckPoint(const CheckName: String); overload;
-    {$ifdef fpc}inline;{$endif}
+    procedure AddCheckPoint(const CheckName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure AddCheckPoint(Classes: TDebugClasses; const CheckName: String); overload;
     procedure IncCounter(const CounterName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure IncCounter(Classes: TDebugClasses; const CounterName: String); overload;
     procedure DecCounter(const CounterName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure DecCounter(Classes: TDebugClasses; const CounterName: String); overload;
-    procedure ResetCounter(const CounterName: String); overload;
-    {$ifdef fpc}inline;{$endif}
+    procedure ResetCounter(const CounterName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure ResetCounter(Classes: TDebugClasses; const CounterName: String); overload;
     function GetCounter(const CounterName: String): Integer;
     procedure ResetCheckPoint; overload; {$ifdef fpc}inline;{$endif}
     procedure ResetCheckPoint(Classes: TDebugClasses); overload;
-    procedure ResetCheckPoint(const CheckName: String); overload;
-    {$ifdef fpc}inline;{$endif}
+    procedure ResetCheckPoint(const CheckName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure ResetCheckPoint(Classes: TDebugClasses; const CheckName: String); overload;
-    procedure EnterMethod(const AMethodName: String; const AMessage: String = '');
-      overload; {$ifdef fpc}inline;{$endif}
-    procedure EnterMethod(Classes: TDebugClasses; const AMethodName: String;
-      const AMessage: String = ''); overload;
-    procedure EnterMethod(Sender: TObject; const AMethodName: String;
-      const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
-    procedure EnterMethod(Classes: TDebugClasses; Sender: TObject;
-      const AMethodName: String; const AMessage: String = ''); overload;
-    procedure ExitMethod(const AMethodName: String; const AMessage: String = '');
-      overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod(Sender: TObject; const AMethodName: String;
-      const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod(Classes: TDebugClasses; const AMethodName: String;
-      const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod({%H-}Classes: TDebugClasses; Sender: TObject;
-      const AMethodName: String; const AMessage: String = ''); overload;
+    procedure EnterMethod(const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure EnterMethod(Classes: TDebugClasses; const AMethodName: String; const AMessage: String = ''); overload;
+    procedure EnterMethod(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure EnterMethod(Classes: TDebugClasses; Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload;
+    procedure ExitMethod(const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure ExitMethod(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure ExitMethod(Classes: TDebugClasses; const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure ExitMethod({%H-}Classes: TDebugClasses; Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload;
     procedure Watch(const AText, AValue: String); overload; {$ifdef fpc}inline;{$endif}
     procedure Watch(Classes: TDebugClasses; const AText, AValue: String); overload;
-    procedure Watch(const AText: String; AValue: Integer); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Watch(Classes: TDebugClasses; const AText: String;
-      AValue: Integer); overload;
+    procedure Watch(const AText: String; AValue: Integer); overload; {$ifdef fpc}inline;{$endif}
+    procedure Watch(Classes: TDebugClasses; const AText: String; AValue: Integer); overload;
     {$ifdef fpc}
     procedure Watch(const AText: String; AValue: Cardinal); overload; {$ifdef fpc}inline;{$endif}
     procedure Watch(Classes: TDebugClasses; const AText: String; AValue: Cardinal);overload;
     {$endif}
-    procedure Watch(const AText: String; AValue: Double); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Watch(Classes: TDebugClasses; const AText: String;
-      AValue: Double); overload;
-    procedure Watch(const AText: String; AValue: Boolean); overload;
-    {$ifdef fpc}inline;{$endif}
-    procedure Watch(Classes: TDebugClasses; const AText: String;
-      AValue: Boolean); overload;
+    procedure Watch(const AText: String; AValue: Double); overload; {$ifdef fpc}inline;{$endif}
+    procedure Watch(Classes: TDebugClasses; const AText: String; AValue: Double); overload;
+    procedure Watch(const AText: String; AValue: Boolean); overload; {$ifdef fpc}inline;{$endif}
+    procedure Watch(Classes: TDebugClasses; const AText: String; AValue: Boolean); overload;
     class property DefaultChannels: TChannelList read GetDefaultChannels;
     property Enabled: Boolean read GetEnabled write SetEnabled;
     property Channels: TChannelList read FChannels;
@@ -349,10 +297,10 @@ type
 
   TFixedCriticalSection = class(TCriticalSection)
   private
-    {$WARN 5029 off : Private field "$1.$2" is never used}
     // FDummy not used anywhere so switch off such warnings
-    FDummy: array [0..95] of Byte;
+    {$WARN 5029 off : Private field "$1.$2" is never used}
     // fix multiprocessor cache safety http://blog.synopse.info/post/2016/01/09/Safe-locks-for-multi-thread-applications
+    FDummy: array [0..95] of Byte;
   end;
 
   TGuardian = TFixedCriticalSection;
@@ -360,7 +308,7 @@ type
 var
   Guardian: TGuardian;
 
-  { TLogger }
+{ TLogger }
 
 procedure TLogger.GetCallStack(AStream: TStream);
 {$ifdef fpc}
@@ -468,8 +416,7 @@ begin
   AStream.Free;
 end;
 
-procedure TLogger.SendBuffer(AMsgType: Integer; const AText: String;
-  var Buffer; Count: Longword);
+procedure TLogger.SendBuffer(AMsgType: Integer; const AText: String; var Buffer; Count: LongWord);
 var
   AStream: TStream;
 begin
@@ -574,8 +521,7 @@ begin
   Send(DefaultClasses, AText, Args);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String;
-  Args: array of const);
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; Args: array of const);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltInfo, Format(AText, Args), nil);
@@ -677,8 +623,7 @@ begin
   Send(DefaultClasses, AText, APoint);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String;
-  const APoint: TPoint);
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; const APoint: TPoint);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue, AText + ' = ' + PointToStr(APoint), nil);
@@ -741,8 +686,7 @@ begin
   SendPointer(DefaultClasses, AText, APointer);
 end;
 
-procedure TLogger.SendPointer(Classes: TDebugClasses; const AText: String;
-  APointer: Pointer);
+procedure TLogger.SendPointer(Classes: TDebugClasses; const AText: String; APointer: Pointer);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue, AText + ' = $' + HexStr(APointer), nil);
@@ -769,8 +713,7 @@ begin
   SendException(DefaultClasses, AText, AException);
 end;
 
-procedure TLogger.SendException(Classes: TDebugClasses; const AText: String;
-  AException: Exception);
+procedure TLogger.SendException(Classes: TDebugClasses; const AText: String; AException: Exception);
 {$ifdef fpc}
 var
   i: Integer;
@@ -816,13 +759,13 @@ begin
 end;
 
 procedure TLogger.SendMemory(const AText: String; Address: Pointer;
-  Size: Longword; Offset: Integer);
+  Size: LongWord; Offset: Integer);
 begin
   SendMemory(DefaultClasses, AText, Address, Size, Offset);
 end;
 
 procedure TLogger.SendMemory(Classes: TDebugClasses; const AText: String;
-  Address: Pointer; Size: Longword; Offset: Integer);
+  Address: Pointer; Size: LongWord; Offset: Integer);
 begin
   if Classes * ActiveClasses = [] then Exit;
   if Address <> nil then
@@ -844,8 +787,7 @@ begin
   SendIf(DefaultClasses, AText, Expression, True);
 end;
 
-procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String;
-  Expression: Boolean);
+procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String; Expression: Boolean);
 begin
   SendIf(Classes, AText, Expression, True);
 end;
@@ -855,8 +797,7 @@ begin
   SendIf(DefaultClasses, AText, Expression, IsTrue);
 end;
 
-procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String;
-  Expression, IsTrue: Boolean);
+procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String; Expression, IsTrue: Boolean);
 begin
   if (Classes * ActiveClasses = []) or (Expression <> IsTrue) then Exit;
   SendStream(ltConditional, AText, nil);
@@ -889,8 +830,7 @@ begin
   SendCustomData(DefaultClasses, AText, Data, FOnCustomData);
 end;
 
-procedure TLogger.SendCustomData(Classes: TDebugClasses; const AText: String;
-  Data: Pointer);
+procedure TLogger.SendCustomData(Classes: TDebugClasses; const AText: String; Data: Pointer);
 begin
   SendCustomData(Classes, AText, Data, FOnCustomData);
 end;
@@ -904,10 +844,12 @@ end;
 procedure TLogger.SendCustomData(Classes: TDebugClasses; const AText: String;
   Data: Pointer; CustomDataFunction: TCustomDataNotify);
 var
-  DoSend:  Boolean;
+  DoSend: Boolean;
   TempStr: String;
 begin
-  if (Classes * ActiveClasses = []) or not Assigned(CustomDataFunction) then Exit;
+  if (Classes * ActiveClasses = [])
+    or not Assigned(CustomDataFunction) then
+    Exit;
   DoSend := True;
   TempStr := CustomDataFunction(Self, Data, DoSend);
   if DoSend then
@@ -926,7 +868,9 @@ var
   DoSend:  Boolean;
   TempStr: String;
 begin
-  if (Classes * ActiveClasses = []) or not Assigned(CustomDataFunction) then Exit;
+  if (Classes * ActiveClasses = []) 
+    or not Assigned(CustomDataFunction) then 
+    Exit;
   DoSend := True;
   TempStr := CustomDataFunction(Self, Data, DoSend);
   if DoSend then
@@ -1081,14 +1025,12 @@ begin
   EnterMethod(DefaultClasses, nil, AMethodName, AMessage);
 end;
 
-procedure TLogger.EnterMethod(Classes: TDebugClasses; const AMethodName: String;
-  const AMessage: String);
+procedure TLogger.EnterMethod(Classes: TDebugClasses; const AMethodName: String; const AMessage: String);
 begin
   EnterMethod(Classes, nil, AMethodName, AMessage);
 end;
 
-procedure TLogger.EnterMethod(Sender: TObject; const AMethodName: String;
-  const AMessage: String);
+procedure TLogger.EnterMethod(Sender: TObject; const AMethodName: String; const AMessage: String);
 begin
   EnterMethod(DefaultClasses, Sender, AMethodName, AMessage);
 end;
@@ -1114,8 +1056,7 @@ begin
   ExitMethod(DefaultClasses, nil, AMethodName, AMessage);
 end;
 
-procedure TLogger.ExitMethod(Sender: TObject; const AMethodName: String;
-  const AMessage: String);
+procedure TLogger.ExitMethod(Sender: TObject; const AMethodName: String; const AMessage: String);
 begin
   ExitMethod(DefaultClasses, Sender, AMethodName, AMessage);
 end;
@@ -1126,8 +1067,7 @@ begin
   ExitMethod(Classes, nil, AMethodName, AMessage);
 end;
 
-procedure TLogger.ExitMethod(Classes: TDebugClasses; Sender: TObject;
-  const AMethodName: String; const AMessage: String);
+procedure TLogger.ExitMethod(Classes: TDebugClasses; Sender: TObject; const AMethodName: String; const AMessage: String);
 var
   i:     Integer;
   AText: String;
